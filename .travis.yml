@@ -1,11 +1,10 @@
 language: ruby
 
-before_install: 
+before_install:
 - if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]] && [[ "${TRAVIS_BRANCH}" != "master" ]]; then travis_terminate 0; fi
- 
+
 install: true
 
 script:
   - echo "Hello, world!"
   - date "+%H:%M:%S   %d/%m/%y"
-  

@@ -1,10 +1,17 @@
 language: ruby
 
-before_install:
-- if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]] && [[ "${TRAVIS_BRANCH}" != "master" ]]; then travis_terminate 0; fi
+env:
+- JOB=job1
+- JOB=job2
+- JOB=job3
 
 install: true
 
-script:
+before_script:
   - echo "Hello, world!"
-  - date "+%H:%M:%S   %d/%m/%y"
+  - echo "This is build $TRAVIS_BUILD_ID, and this is job $JOB_ID and $JOB and $TRAVIS_TOKEN"
+  - if [[ "$JOB" == "job2" ]]; then sleep 160; fi
+  - if [[ "$JOB" == "job3" ]]; then sleep 260; fi
+  
+script:
+  - "curl -X POST -H \"Travis-API-Version: 3\" -H \"User-Agent: MyExample\" -H \"Authorization: token $TRAVIS_TOKEN\"  \"https://api.travis-ci.org/build/$TRAVIS_BUILD_ID/cancel\""
